@@ -1,13 +1,16 @@
 import React from 'react';
 import {View, Text} from 'react-native';
-import Picture from './src/Picture';
+
+import { ImageProvider } from './src/ImageContext';
+import Routes from './src/Routes';
+
 const App = () => {
   return (
     <>
-      <View>
-        <Text>App</Text>
-      </View>
-      <Picture />
+    <ImageProvider>
+    <Routes />
+    </ImageProvider>
+     
     </>
   );
 };

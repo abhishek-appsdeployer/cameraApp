@@ -1,18 +1,16 @@
 import React, { useContext } from 'react';
-import { View, Text, Image } from 'react-native';
-import ImageContext from './ImageContext';
+import { View, Text, Image,ScrollView } from 'react-native';
+import {ImageContext} from './ImageContext';
 
 const ImageGallery = () => {
-  const { images } = useContext(ImageContext);
+    const [imageUrls] = useContext(ImageContext);
 
   return (
-    <View style={{ flex: 1 }}>
-      {images.map((image, index) => (
-        <View key={index}>
-          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-        </View>
+    <ScrollView>
+      {imageUrls.map((imageUrl, index) => (
+        <Image key={index} source={{ uri: imageUrl }} style={{ width: 200, height: 200 }} />
       ))}
-    </View>
+    </ScrollView>
   );
 };
 
