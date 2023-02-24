@@ -7,8 +7,9 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {ImageContext} from './ImageContext';
 const Picture = ({navigation}) => {
   const [capturedImage, setCapturedImage] = useState(null);
+  const [front,setfront]=useState(0)
   const [imageUrls, setImageUrls] = useContext(ImageContext);
-
+  const [cameraType, setCameraType] = useState(RNCamera.Constants.Type.back)
   const takePicture = async () => {
     if (this.camera) {
       const options = {quality: 0.5, base64: true};
@@ -23,16 +24,26 @@ const Picture = ({navigation}) => {
     try {
       const result = await CameraRoll.saveToCameraRoll(capturedImage);
       console.log('Image saved successfully to gallery:', result);
-      dispatch({type: 'ADD_IMAGE', payload: data.uri});
+      alert("Image save to phone gallery successfully")
     } catch (error) {
       console.log('Error saving image to gallery:', error);
+      alert("some error in saving")
     }
   };
-
+  const toggleCameraType = () => {
+    if (cameraType === RNCamera.Constants.Type.back) {
+      setCameraType(RNCamera.Constants.Type.front);
+      setfront(0)
+    } else {
+      setCameraType(RNCamera.Constants.Type.back);
+      setfront(1)
+    }
+  };
   return (
     <View style={{flex: 1}}>
       <RNCamera
         style={{flex: 1}}
+        type={cameraType}
         captureAudio={false}
         ref={ref => {
           this.camera = ref;
@@ -41,9 +52,25 @@ const Picture = ({navigation}) => {
           <Text>Take Picture</Text>
           <Icon name="rocket" size={30} color="#900" />
         </TouchableOpacity> */}
+        <TouchableOpacity onPress={toggleCameraType} style={{padding:20}}>
+         
+          {
+            front?<Icon
+      
+      name="toggle-on"
+      size={30}
+      color="red"
+    />:<Icon
+      
+      name="toggle-off"
+      size={30}
+      color="black"
+    />
+          }
+        </TouchableOpacity>
         <View style={{flexDirection:"row",justifyContent:"space-between",paddingHorizontal:20,marginTop:"auto",paddingBottom:20}}>
       <Icon
-        onPress={() => navigation.navigate('image')}
+       onPress={saveToGallery}
         name="download"
         size={30}
         color="white"
